@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel.Design;
-using System.Globalization;
-using Task = System.Threading.Tasks.Task;
+using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
 {
@@ -89,11 +89,30 @@ namespace CopyRelativePath
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            string message = string.Format(CultureInfo.CurrentCulture, "Active Document: {0}\nSolution: {1}",
-                package.dte.ActiveDocument.FullName,
-                package.dte.Solution.FullName);
+            string fileName = package.dte.ActiveDocument.FullName;
+            string basePath = Path.GetDirectoryName(package.dte.Solution.FullName);
+            if (fileName.StartsWith(basePath))
+            {
+                fileName = fileName.Remove(0, basePath.Length);
+            }
+            else
+            {
+                // Trim common prefix
+                string[] basePathComponents = basePath.Split(Path.DirectorySeparatorChar);
+                string[] fileNameComponents = fileName.Split(Path.DirectorySeparatorChar);
+                int minLen = Math.Min(basePathComponents.Length, fileNameComponents.Length);
+                int i = 0;
+                for (; i < minLen; ++i)
+                {
+                    if (fileNameComponents[i] != basePathComponents[i])
+                        break;
+                }
+                var subPathComponents = fileNameComponents.Skip(i).ToArray();
+                fileName = Path.Combine(subPathComponents);
+            }
+            fileName.TrimStart(Path.DirectorySeparatorChar);
 
-            Clipboard.SetText(package.dte.ActiveDocument.FullName);
+            Clipboard.SetText(fileName);
         }
     }
 }
