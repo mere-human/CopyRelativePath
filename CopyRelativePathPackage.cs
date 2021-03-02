@@ -2,6 +2,7 @@
 using EnvDTE80;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
@@ -26,8 +27,10 @@ namespace CopyRelativePath
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [Guid(CopyRelativePathPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
     public sealed class CopyRelativePathPackage : AsyncPackage
     {
         /// <summary>
@@ -35,7 +38,7 @@ namespace CopyRelativePath
         /// </summary>
         public const string PackageGuidString = "27eb3794-7e10-41c3-91f3-4ffa1c376954";
 
-        public DTE2 dte
+        public DTE2 DTE
         {
             get;
             private set;
@@ -57,9 +60,24 @@ namespace CopyRelativePath
             await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
             await CopyCommand.InitializeAsync(this);
 
-            dte = (DTE2)await GetServiceAsync(typeof(DTE));
+            DTE = (DTE2)await GetServiceAsync(typeof(DTE));
         }
 
         #endregion
+    }
+
+    public class OptionPageGrid : DialogPage
+    {
+        public const string CategoryName = "Copy Relative Path Extension";
+        public const string PageName = "Copy Relative Path Page";
+
+        [Category(CategoryName)]
+        [DisplayName("Base Path")]
+        [Description("Specify a base for relative path")]
+        public string OptionBasePath
+        {
+            get;
+            set;
+        }
     }
 }

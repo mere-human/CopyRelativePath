@@ -89,8 +89,8 @@ namespace CopyRelativePath
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            string fileName = package.dte.ActiveDocument.FullName;
-            string basePath = Path.GetDirectoryName(package.dte.Solution.FullName);
+            string fileName = package.DTE.ActiveDocument.FullName;
+            string basePath = Path.GetDirectoryName(package.DTE.Solution.FullName);
             if (fileName.StartsWith(basePath))
             {
                 fileName = fileName.Remove(0, basePath.Length);
