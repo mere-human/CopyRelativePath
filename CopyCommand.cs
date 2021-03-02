@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel.Design;
 using System.Globalization;
 using Task = System.Threading.Tasks.Task;
+using System.Windows.Forms;
 
 namespace CopyRelativePath
 {
@@ -91,16 +92,8 @@ namespace CopyRelativePath
             string message = string.Format(CultureInfo.CurrentCulture, "Active Document: {0}\nSolution: {1}",
                 package.dte.ActiveDocument.FullName,
                 package.dte.Solution.FullName);
-            string title = "Copy Rel Path";
 
-            // Show a message box to prove we were here
-            VsShellUtilities.ShowMessageBox(
-                this.package,
-                message,
-                title,
-                OLEMSGICON.OLEMSGICON_INFO,
-                OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+            Clipboard.SetText(package.dte.ActiveDocument.FullName);
         }
     }
 }
