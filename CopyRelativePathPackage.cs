@@ -31,6 +31,8 @@ namespace CopyRelativePath
     [Guid(CopyRelativePathPackage.PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
+    [ProvideProfileAttribute(typeof(OptionPageGrid),
+    OptionPageGrid.CategoryName, "Copy Relative Path Settings", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
     public sealed class CopyRelativePathPackage : AsyncPackage
     {
         /// <summary>
