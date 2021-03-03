@@ -115,8 +115,13 @@ namespace CopyRelativePath
             fileName = fileName.TrimStart(Path.DirectorySeparatorChar);
 
             // TODO: separate command?
+            // TODO: convert to forward slash if prefix starts with URI
+            // TODO: append /tree/master if missing for GitHub address
             if (package.OptionPrefix.Length != 0)
                 fileName = Path.Combine(package.OptionPrefix, fileName);
+
+            if (package.OptionIsForwardSlash)
+                fileName = fileName.Replace(Path.DirectorySeparatorChar, '/');
 
             Clipboard.SetText(fileName);
         }

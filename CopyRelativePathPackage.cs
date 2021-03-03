@@ -62,6 +62,15 @@ namespace CopyRelativePath
                 return page.OptionPrefix;
             }
         }
+
+        public bool OptionIsForwardSlash
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.OptionIsForwardSlash;
+            }
+        }
         #endregion
 
         #region Package Members
@@ -104,6 +113,15 @@ namespace CopyRelativePath
         [DisplayName("Prefix")]
         [Description("Specify a prefix to append before the relative path (e.g. GitHub repository address)")]
         public string OptionPrefix
+        {
+            get;
+            set;
+        }
+
+        [Category(CategoryName)]
+        [DisplayName("Use forward slash '/'")]
+        [Description("Replaces '\\' by '/' in a path")]
+        public bool OptionIsForwardSlash
         {
             get;
             set;
