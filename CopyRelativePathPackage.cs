@@ -102,6 +102,8 @@ namespace CopyRelativePath
         public const string CategoryName = "Copy Relative Path Extension";
         public const string PageName = "General";
 
+        private bool optIsForwardSlash = true;
+
         [Category(CategoryName)]
         [DisplayName("Base Path")]
         [Description("Specify a base for relative path")]
@@ -113,7 +115,7 @@ namespace CopyRelativePath
 
         [Category(CategoryName)]
         [DisplayName("Prefix")]
-        [Description("Specify a prefix to append before the relative path (e.g. GitHub repository address)")]
+        [Description("Specify a prefix to append before the relative path. Example: https://github.com/vim/vim/blob/master/")]
         public string OptionPrefix
         {
             get;
@@ -122,11 +124,11 @@ namespace CopyRelativePath
 
         [Category(CategoryName)]
         [DisplayName("Use forward slash '/'")]
-        [Description("Replaces '\\' by '/' in a path")]
+        [Description("Replace '\\' by '/' in a path")]
         public bool OptionIsForwardSlash
         {
-            get;
-            set;
+            get { return optIsForwardSlash; }
+            set { optIsForwardSlash = value; }
         }
     }
 }
