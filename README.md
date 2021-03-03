@@ -6,4 +6,5 @@ CopyRelativePath Visual Studio Extension
 * Create a VSIX build
 * Enable or disable commands (options)
 * Add gif in readme
+* Open in browser command
 * Add unit tests
