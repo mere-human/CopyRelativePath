@@ -44,6 +44,7 @@ namespace CopyRelativePath
             private set;
         }
 
+        #region Options
         public string OptionBasePath
         {
             get
@@ -52,6 +53,16 @@ namespace CopyRelativePath
                 return page.OptionBasePath;
             }
         }
+
+        public string OptionPrefix
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.OptionPrefix;
+            }
+        }
+        #endregion
 
         #region Package Members
 
@@ -78,12 +89,21 @@ namespace CopyRelativePath
     public class OptionPageGrid : DialogPage
     {
         public const string CategoryName = "Copy Relative Path Extension";
-        public const string PageName = "Copy Relative Path Page";
+        public const string PageName = "General";
 
         [Category(CategoryName)]
         [DisplayName("Base Path")]
         [Description("Specify a base for relative path")]
         public string OptionBasePath
+        {
+            get;
+            set;
+        }
+
+        [Category(CategoryName)]
+        [DisplayName("Prefix")]
+        [Description("Specify a prefix to append before the relative path (e.g. GitHub repository address)")]
+        public string OptionPrefix
         {
             get;
             set;

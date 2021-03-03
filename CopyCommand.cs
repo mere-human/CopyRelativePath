@@ -114,6 +114,10 @@ namespace CopyRelativePath
             }
             fileName = fileName.TrimStart(Path.DirectorySeparatorChar);
 
+            // TODO: separate command?
+            if (package.OptionPrefix.Length != 0)
+                fileName = Path.Combine(package.OptionPrefix, fileName);
+
             Clipboard.SetText(fileName);
         }
     }
