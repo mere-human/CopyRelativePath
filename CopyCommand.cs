@@ -89,7 +89,7 @@ namespace CopyRelativePath
         {
             ThreadHelper.ThrowIfNotOnUIThread();
             string basePath = package.OptionBasePath;
-            if (basePath.Length == 0)
+            if (string.IsNullOrEmpty(basePath))
                 basePath = Path.GetDirectoryName(package.DTE.Solution.FullName);
 
             string fileName = package.DTE.ActiveDocument.FullName;
@@ -117,7 +117,7 @@ namespace CopyRelativePath
             // TODO: separate command?
             // TODO: convert to forward slash if prefix starts with URI
             // TODO: append /tree/master if missing for GitHub address
-            if (package.OptionPrefix.Length != 0)
+            if (!string.IsNullOrEmpty(package.OptionPrefix))
                 fileName = Path.Combine(package.OptionPrefix, fileName);
 
             if (package.OptionIsForwardSlash)
