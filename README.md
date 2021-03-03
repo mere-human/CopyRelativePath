@@ -2,6 +2,9 @@
 CopyRelativePath Visual Studio Extension
 
 ## TODO:
-* _Copy Rel Path_ command should copy path to clipboard
-* Extension should allow a base path customization via settings
+* Per-project options instead of global
+* Prefix relative path as a separate command (e.g. append GitHub address)
 * Create a VSIX build
+* Enable or disable commands (options)
+* Add gif in readme
+* Add unit tests
