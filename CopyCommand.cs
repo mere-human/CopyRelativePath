@@ -112,7 +112,7 @@ namespace CopyRelativePath
                 var subPathComponents = fileNameComponents.Skip(i).ToArray();
                 fileName = Path.Combine(subPathComponents);
             }
-            fileName.TrimStart(Path.DirectorySeparatorChar);
+            fileName = fileName.TrimStart(Path.DirectorySeparatorChar);
 
             Clipboard.SetText(fileName);
         }
