@@ -44,6 +44,15 @@ namespace CopyRelativePath
             private set;
         }
 
+        public string OptionBasePath
+        {
+            get
+            {
+                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
+                return page.OptionBasePath;
+            }
+        }
+
         #region Package Members
 
         /// <summary>
