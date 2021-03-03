@@ -3,7 +3,7 @@
   <Metadata>
     <Identity Id="CopyRelativePath.d0aff805-ad45-4950-af52-4376c0676fac" Version="1.0" Language="en-US" Publisher="mere-human" />
     <DisplayName>CopyRelativePath</DisplayName>
-    <Description>Empty VSIX Project.</Description>
+    <Description>Adds copy file path commands.</Description>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
