@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 using System.IO;
@@ -92,7 +93,19 @@ namespace CopyRelativePath
             if (string.IsNullOrEmpty(basePath))
                 basePath = Path.GetDirectoryName(package.DTE.Solution.FullName);
 
-            string fileName = package.DTE.ActiveDocument.FullName;
+            // Get active document name.
+            var activeDoc = package.DTE.ActiveDocument;
+            string fileName = activeDoc.FullName;
+            var items = package.DTE.SelectedItems;
+            if (!items.MultiSelect && items.Count == 1)
+            {
+                var item = items.Item(1).ProjectItem;   // 1-based index
+                // If selected item isn't the same as the active document, get its name.
+                // This is the case for an item in the Solution Explorer.
+                if (item != null && item.Document != activeDoc && item.FileCount == 1)
+                    fileName = item.FileNames[0];
+            }
+
             if (fileName.StartsWith(basePath))
             {
                 fileName = fileName.Remove(0, basePath.Length);
