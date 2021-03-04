@@ -55,7 +55,7 @@
       <Button guid="guidCopyRelativePathPackageCmdSet" id="TestCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <Strings>
-          <ButtonText>Copy &amp;Rel Path</ButtonText>
+          <ButtonText>Copy &amp;Relative Path</ButtonText>
         </Strings>
       </Button>
     </Buttons>

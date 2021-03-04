@@ -28,10 +28,10 @@ namespace CopyRelativePath
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [Guid(CopyRelativePathPackage.PackageGuidString)]
+    [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
-    [ProvideProfileAttribute(typeof(OptionPageGrid),
+    [ProvideProfile(typeof(OptionPageGrid),
     OptionPageGrid.CategoryName, "Copy Relative Path Settings", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
     public sealed class CopyRelativePathPackage : AsyncPackage
     {
@@ -106,7 +106,7 @@ namespace CopyRelativePath
 
         [Category(CategoryName)]
         [DisplayName("Base Path")]
-        [Description("Specify a base for relative path")]
+        [Description("Specify a base for relative path. If empty, then the solution directory is used.")]
         public string OptionBasePath
         {
             get;
@@ -124,7 +124,7 @@ namespace CopyRelativePath
 
         [Category(CategoryName)]
         [DisplayName("Use forward slash '/'")]
-        [Description("Replace '\\' by '/' in a path")]
+        [Description("Replace '\\' by '/' in a path.")]
         public bool OptionIsForwardSlash
         {
             get { return optIsForwardSlash; }
