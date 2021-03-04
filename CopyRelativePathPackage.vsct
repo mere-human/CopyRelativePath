@@ -37,10 +37,14 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS"/>
+        <!--MDI document context menu-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB"/>
+      </Group>
+      <Group guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" priority="0x0600">
+        <!--Item node context menu (Solution Explorer)-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
       </Group>
     </Groups>
-
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -60,15 +64,6 @@
       </Button>
     </Buttons>
 
-    <Menus>
-      <Menu guid="guidCopyRelativePathPackageCmdSet" id="TestCommandId" priority="0x700" type="Menu">
-        <Parent guid="guidSHLMainMenu"
-                id="IDG_VS_MM_TOOLSADDINS" />
-        <Strings>
-          <ButtonText>Test Menu</ButtonText>
-        </Strings>
-      </Menu>
-    </Menus>
   </Commands>
 
   <Symbols>
