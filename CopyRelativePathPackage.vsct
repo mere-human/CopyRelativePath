@@ -56,10 +56,16 @@
               <CommandFlag>DefaultInvisible</CommandFlag>
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
-      <Button guid="guidCopyRelativePathPackageCmdSet" id="TestCommandId" priority="0x0100" type="Button">
+      <Button guid="guidCopyRelativePathPackageCmdSet" id="RelCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <Strings>
           <ButtonText>Copy &amp;Relative Path</ButtonText>
+        </Strings>
+      </Button>
+      <Button guid="guidCopyRelativePathPackageCmdSet" id="PrefxCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
+        <Strings>
+          <ButtonText>Copy With &amp;Prefix</ButtonText>
         </Strings>
       </Button>
     </Buttons>
@@ -73,7 +79,8 @@
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidCopyRelativePathPackageCmdSet" value="{31ffadf9-d4ce-44e3-8931-03823256b328}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
-      <IDSymbol name="TestCommandId" value="0x0100" />
+      <IDSymbol name="RelCommandId" value="0x0100" />
+      <IDSymbol name="PrefxCommandId" value="0x0200" />
     </GuidSymbol>
   </Symbols>
 </CommandTable>

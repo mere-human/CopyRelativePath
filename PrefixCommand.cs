@@ -8,12 +8,12 @@ namespace CopyRelativePath
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class CopyCommand : BaseCopyCommand
+    internal sealed class PrefixCommand : BaseCopyCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0100;
+        public const int CommandId = 0x0200;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -21,12 +21,12 @@ namespace CopyRelativePath
         public static readonly Guid CommandSet = new Guid("31ffadf9-d4ce-44e3-8931-03823256b328");
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CopyCommand"/> class.
+        /// Initializes a new instance of the <see cref="PrefixCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private CopyCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private PrefixCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             base.package = package as CopyRelativePathPackage ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -39,7 +39,7 @@ namespace CopyRelativePath
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static CopyCommand Instance
+        public static PrefixCommand Instance
         {
             get;
             private set;
@@ -56,7 +56,7 @@ namespace CopyRelativePath
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new CopyCommand(package, commandService);
+            Instance = new PrefixCommand(package, commandService);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace CopyRelativePath
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            Execute(appendPrefix: false);
+            Execute(appendPrefix: true);
         }
     }
 }
