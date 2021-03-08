@@ -103,8 +103,6 @@ namespace CopyRelativePath
         public const string CategoryName = "Copy Relative Path Extension";
         public const string PageName = "General";
 
-        private bool optIsForwardSlash = true;
-
         [Category(CategoryName)]
         [DisplayName("Base Path")]
         [Description("Specify a base for relative path. If empty, then the solution directory is used.")]
@@ -126,10 +124,6 @@ namespace CopyRelativePath
         [Category(CategoryName)]
         [DisplayName("Use forward slash '/'")]
         [Description("Replace '\\' by '/' in a path.")]
-        public bool OptionIsForwardSlash
-        {
-            get { return optIsForwardSlash; }
-            set { optIsForwardSlash = value; }
-        }
+        public bool OptionIsForwardSlash { get; set; } = true;
     }
 }
