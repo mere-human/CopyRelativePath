@@ -1,9 +1,15 @@
 ﻿using EnvDTE;
 using EnvDTE80;
+using Microsoft.Internal.VisualStudio.Shell;
+using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using IStream = Microsoft.VisualStudio.OLE.Interop.IStream;
 using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
@@ -32,7 +38,7 @@ namespace CopyRelativePath
     [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
     [ProvideProfile(typeof(OptionPageGrid),
     OptionPageGrid.CategoryName, "Copy Relative Path Settings", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
-    public sealed class CopyRelativePathPackage : AsyncPackage
+    public sealed class CopyRelativePathPackage : AsyncPackage, IVsPersistSolutionOpts
     {
         /// <summary>
         /// CopyRelativePathPackage GUID string.
@@ -46,31 +52,19 @@ namespace CopyRelativePath
         }
 
         #region Options
+        public OptionPageGrid OptionPage { get => (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid)); }
+
         public string OptionBasePath
         {
-            get
-            {
-                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-                return page.OptionBasePath;
-            }
+            get => OptionPage.OptionBasePath;
         }
-
         public string OptionPrefix
         {
-            get
-            {
-                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-                return page.OptionPrefix;
-            }
+            get => OptionPage.OptionPrefix;
         }
-
         public bool OptionIsForwardSlash
         {
-            get
-            {
-                OptionPageGrid page = (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid));
-                return page.OptionIsForwardSlash;
-            }
+            get => OptionPage.OptionIsForwardSlash;
         }
         #endregion
 
@@ -87,13 +81,114 @@ namespace CopyRelativePath
         {
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
-            await this.JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+            await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
+
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.AssemblyResolve += new ResolveEventHandler(MyResolveEventHandler);
+
+            if (!LoadSettings())
+                InitDefaultSettings();
+
             await CopyCommand.InitializeAsync(this);
             await PrefixCommand.InitializeAsync(this);
 
             DTE = (DTE2)await GetServiceAsync(typeof(DTE));
         }
 
+        private static Assembly MyResolveEventHandler(object sender, ResolveEventArgs args)
+        {
+            return typeof(SolutionSettings).Assembly;
+        }
+
         #endregion
+
+        private const string ExtensionOptionsStreamKey = "copy_rel_path";
+
+        private SolutionSettings _settings;
+
+        public bool LoadSettings()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
+            return solutionPersistence.LoadPackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
+        }
+
+        private void InitDefaultSettings()
+        {
+            _settings = new SolutionSettings();
+            _settings.BasePath = OptionPage.OptionBasePath;
+            _settings.Prefix = OptionPage.OptionPrefix;
+            _settings.UseForwardSlash = OptionPage.OptionIsForwardSlash;
+        }
+
+        public bool PersistSettings()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+
+            var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
+            return solutionPersistence.SavePackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
+        }
+
+        #region IVsPersistSolutionOpts
+
+        // Called by the shell when a solution is opened and the SUO file is read.
+        public int LoadUserOptions(IVsSolutionPersistence pPersistence, uint grfLoadOpts)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return pPersistence.LoadPackageUserOpts(this, ExtensionOptionsStreamKey);
+        }
+
+        // Called by the shell if the _strSolutionUserOptionsKey section declared in LoadUserOptions() as 
+        // being written by this package has been found in the suo file
+        public int ReadUserOptions(IStream pOptionsStream, string key)
+        {
+            _settings = null;
+
+            try
+            {
+                using (var stream = new DataStreamFromComStream(pOptionsStream))
+                {
+                    var serializer = new BinaryFormatter();
+                    var obj = serializer.Deserialize(stream);
+                    if (obj != null)
+                    {
+                        _settings = obj as SolutionSettings;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+            }
+
+            return _settings == null ? VSConstants.E_FAIL : VSConstants.S_OK;
+        }
+
+        // Called by the shell when the SUO file is saved. The provider calls the shell back to let it
+        // know which options keys it will use in the suo file.
+        public int SaveUserOptions(IVsSolutionPersistence pPersistence)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            return pPersistence.SavePackageUserOpts(this, ExtensionOptionsStreamKey);
+        }
+
+        // Called by the shell to let the package write user options under the specified key.
+        public int WriteUserOptions(IStream pOptionsStream, string key)
+        {
+            try
+            {
+                using (var stream = new DataStreamFromComStream(pOptionsStream))
+                {
+                    var serializer = new BinaryFormatter();
+                    serializer.Serialize(stream, _settings);
+                }
+            }
+            catch
+            {
+            }
+
+            return VSConstants.S_OK;
+        }
+
+        #endregion IVsPersistSolutionOpts
     }
 }
