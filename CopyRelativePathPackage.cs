@@ -38,6 +38,7 @@ namespace CopyRelativePath
     [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
     [ProvideProfile(typeof(OptionPageGrid),
     OptionPageGrid.CategoryName, "Copy Relative Path Settings", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
+    [ProvideBindingPath]
     public sealed class CopyRelativePathPackage : AsyncPackage, IVsPersistSolutionOpts
     {
         /// <summary>
@@ -82,9 +83,6 @@ namespace CopyRelativePath
             // When initialized asynchronously, the current thread may be a background thread at this point.
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
-
-            AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.AssemblyResolve += new ResolveEventHandler(MyResolveEventHandler);
 
             if (!LoadSettings())
                 InitDefaultSettings();
@@ -156,7 +154,7 @@ namespace CopyRelativePath
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
