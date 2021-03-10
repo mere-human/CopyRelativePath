@@ -37,14 +37,14 @@ namespace CopyRelativePath
 
             // Get active document name.
             var activeDoc = package.DTE.ActiveDocument;
-            string fileName = activeDoc.FullName;
+            string fileName = (activeDoc == null) ? "" : activeDoc.FullName;
             var items = package.DTE.SelectedItems;
             if (!items.MultiSelect && items.Count == 1)
             {
                 var item = items.Item(1).ProjectItem;   // 1-based index
                 // If selected item isn't the same as the active document, get its name.
                 // This is the case for an item in the Solution Explorer.
-                if (item != null && item.Document != activeDoc && item.FileCount == 1)
+                if (item != null && item.FileCount == 1 && (activeDoc == null || item.Document != activeDoc))
                     fileName = item.FileNames[0];
             }
 
