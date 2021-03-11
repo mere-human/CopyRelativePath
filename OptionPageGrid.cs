@@ -36,6 +36,17 @@ namespace CopyRelativePath
         [Description("Replace '\\' by '/' in a path.")]
         public bool OptionIsForwardSlash { get; set; } = true;
 
+        public enum StorageType
+        {
+            Global,
+            Local
+        }
+
+        [Category(CategoryName)]
+        [DisplayName("Storage type")]
+        [Description("Store options locally to a solution in .suo file or globally.")]
+        public StorageType OptionStorageType { get; set; }
+
         public void AttachSettings(SolutionSettings settings)
         {
             _settings = settings;

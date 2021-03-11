@@ -84,7 +84,7 @@ namespace CopyRelativePath
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            if (LoadSettings())
+            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local && LoadSettings())
             {
                 OptionPage.AttachSettings(_settings);
             }
