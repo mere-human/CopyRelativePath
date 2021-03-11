@@ -84,8 +84,14 @@ namespace CopyRelativePath
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            if (!LoadSettings())
-                InitDefaultSettings();
+            if (LoadSettings())
+            {
+                OptionPage.AttachSettings(_settings);
+            }
+            else
+            {
+                _settings = OptionPage.BuildSettings();
+            }
 
             await CopyCommand.InitializeAsync(this);
             await PrefixCommand.InitializeAsync(this);
@@ -109,14 +115,6 @@ namespace CopyRelativePath
             ThreadHelper.ThrowIfNotOnUIThread();
             var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
             return solutionPersistence.LoadPackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
-        }
-
-        private void InitDefaultSettings()
-        {
-            _settings = new SolutionSettings();
-            _settings.BasePath = OptionPage.OptionBasePath;
-            _settings.Prefix = OptionPage.OptionPrefix;
-            _settings.UseForwardSlash = OptionPage.OptionIsForwardSlash;
         }
 
         public bool PersistSettings()
