@@ -35,9 +35,11 @@ namespace CopyRelativePath
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
     [Guid(PackageGuidString)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideOptionPage(typeof(OptionPageGrid), OptionPageGrid.CategoryName, OptionPageGrid.PageName, 0, 0, true)]
-    [ProvideProfile(typeof(OptionPageGrid),
-    OptionPageGrid.CategoryName, "Copy Relative Path Settings", 106, 107, isToolsOptionPage: true, DescriptionResourceID = 108)]
+    [ProvideOptionPage(typeof(OptionPageGrid), categoryName: OptionPageGrid.ExtensionName,
+        pageName: OptionPageGrid.PageName, 0, 0, true)]
+    [ProvideProfile(typeof(OptionPageGrid), categoryName: OptionPageGrid.ExtensionName,
+        objectName: "Copy Relative Path Settings", categoryResourceID: 106, objectNameResourceID: 107,
+        isToolsOptionPage: true, DescriptionResourceID = 108)]
     [ProvideBindingPath]
     public sealed class CopyRelativePathPackage : AsyncPackage, IVsPersistSolutionOpts
     {

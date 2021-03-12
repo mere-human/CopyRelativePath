@@ -7,13 +7,15 @@ namespace CopyRelativePath
 {
     public class OptionPageGrid : DialogPage
     {
-        public const string CategoryName = "Copy Relative Path Extension";
+        public const string ExtensionName = "Copy Relative Path Extension";
+        public const string BehaviorCategoryName = "Behavior";
+        public const string GlobalCategoryName = "Global";
         public const string PageName = "General";
 
         [NonSerialized]
         private SolutionSettings _settings;
 
-        [Category(CategoryName)]
+        [Category(BehaviorCategoryName)]
         [DisplayName("Base Path")]
         [Description("Specify a base for relative path. If empty, then the solution directory is used.")]
         public string OptionBasePath
@@ -22,7 +24,7 @@ namespace CopyRelativePath
             set;
         }
 
-        [Category(CategoryName)]
+        [Category(BehaviorCategoryName)]
         [DisplayName("Prefix")]
         [Description("Specify a prefix to append before the relative path. Example: https://github.com/vim/vim/blob/master/")]
         public string OptionPrefix
@@ -31,9 +33,9 @@ namespace CopyRelativePath
             set;
         }
 
-        [Category(CategoryName)]
-        [DisplayName("Use forward slash '/'")]
-        [Description("Replace '\\' by '/' in a path.")]
+        [Category(BehaviorCategoryName)]
+        [DisplayName("Forward slash")]
+        [Description("If enabled, replace '\\' by '/' in a copied path.")]
         public bool OptionIsForwardSlash { get; set; } = true;
 
         public enum StorageType
@@ -42,10 +44,10 @@ namespace CopyRelativePath
             Local
         }
 
-        [Category(CategoryName)]
+        [Category(GlobalCategoryName)]
         [DisplayName("Storage type")]
-        [Description("Store options locally to a solution in .suo file or globally.")]
-        public StorageType OptionStorageType { get; set; }
+        [Description("Global options (same for all solutions) or local options (specific for each solution).\nLocal options are stored in .suo file.")]
+        public StorageType OptionStorageType { get; set; } = StorageType.Global;
 
         public void AttachSettings(SolutionSettings settings)
         {
