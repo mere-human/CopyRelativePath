@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="CopyRelativePath.d0aff805-ad45-4950-af52-4376c0676fac" Version="1.0" Language="en-US" Publisher="mere-human" />
+        <Identity Id="CopyRelativePath.d0aff805-ad45-4950-af52-4376c0676fac" Version="1.1" Language="en-US" Publisher="mere-human" />
         <DisplayName>CopyRelativePath</DisplayName>
-        <Description xml:space="preserve">Adds advanced copy file path commands.</Description>
+        <Description xml:space="preserve">Adds copy relative file path command and more.</Description>
         <MoreInfo>https://github.com/mere-human/CopyRelativePath</MoreInfo>
         <License>LICENSE.txt</License>
+        <Icon>Resources\file-path_icon-icons.com_71653_128.png</Icon>
         <Tags>tools,file,path</Tags>
         <Preview>true</Preview>
     </Metadata>
