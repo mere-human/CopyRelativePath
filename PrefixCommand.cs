@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.Shell;
+﻿// Copyright (c) mere-human. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
 using Task = System.Threading.Tasks.Task;

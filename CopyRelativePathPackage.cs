@@ -1,4 +1,7 @@
-﻿using EnvDTE;
+﻿// Copyright (c) mere-human. All rights reserved.
+// Licensed under the MIT License. See License.txt in the project root for license information.
+
+using EnvDTE;
 using EnvDTE80;
 using Microsoft.Internal.VisualStudio.Shell;
 using Microsoft.VisualStudio;
