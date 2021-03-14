@@ -6,7 +6,6 @@
         <Description xml:space="preserve">Adds copy relative file path command and more.</Description>
         <MoreInfo>https://github.com/mere-human/CopyRelativePath</MoreInfo>
         <License>LICENSE.txt</License>
-        <Icon>Resources\file-path_icon-icons.com_71653_128.png</Icon>
         <Tags>tools,file,path</Tags>
         <Preview>true</Preview>
     </Metadata>
