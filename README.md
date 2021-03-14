@@ -1,5 +1,7 @@
 # CopyRelativePath
-CopyRelativePath Visual Studio Extension
+CopyRelativePath Visual Studio Extension.
+
+Download: [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mere-human.CopyRelativePath)
 
 ## Description
 
