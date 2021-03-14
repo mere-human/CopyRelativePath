@@ -16,17 +16,6 @@ namespace CopyRelativePath
         /// </summary>
         protected CopyRelativePathPackage package;
 
-        /// <summary>
-        /// Gets the service provider from the owner package.
-        /// </summary>
-        private Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider
-        {
-            get
-            {
-                return this.package;
-            }
-        }
-
         protected void Execute(bool appendPrefix)
         {
             ThreadHelper.ThrowIfNotOnUIThread();

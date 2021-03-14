@@ -5,7 +5,6 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
@@ -101,13 +100,6 @@ namespace CopyRelativePath
             DTE = (DTE2)await GetServiceAsync(typeof(DTE));
         }
 
-        private static Assembly MyResolveEventHandler(object sender, ResolveEventArgs args)
-        {
-            return typeof(SolutionSettings).Assembly;
-        }
-
-        #endregion
-
         private const string ExtensionOptionsStreamKey = "copy_rel_path";
 
         private SolutionSettings _settings;
@@ -126,6 +118,8 @@ namespace CopyRelativePath
             var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
             return solutionPersistence.SavePackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
         }
+
+        #endregion
 
         #region IVsPersistSolutionOpts
 
