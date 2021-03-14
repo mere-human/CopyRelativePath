@@ -37,7 +37,8 @@ namespace CopyRelativePath
                     fileName = item.FileNames[0];
             }
 
-            if (fileName.StartsWith(basePath))
+            // Compare path components ignoring case (assume NTFS).
+            if (fileName.StartsWith(basePath, StringComparison.CurrentCultureIgnoreCase))
             {
                 fileName = fileName.Remove(0, basePath.Length);
             }
@@ -50,7 +51,7 @@ namespace CopyRelativePath
                 int i = 0;
                 for (; i < minLen; ++i)
                 {
-                    if (fileNameComponents[i] != basePathComponents[i])
+                    if (!fileNameComponents[i].Equals(basePathComponents[i], StringComparison.CurrentCultureIgnoreCase))
                         break;
                 }
                 var subPathComponents = fileNameComponents.Skip(i).ToArray();
