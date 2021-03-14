@@ -52,10 +52,12 @@ namespace CopyRelativePath
         public void AttachSettings(SolutionSettings settings)
         {
             _settings = settings;
-
-            OptionBasePath = _settings.BasePath;
-            OptionPrefix = _settings.Prefix;
-            OptionIsForwardSlash = _settings.UseForwardSlash;
+            if (_settings != null)
+            {
+                OptionBasePath = _settings.BasePath;
+                OptionPrefix = _settings.Prefix;
+                OptionIsForwardSlash = _settings.UseForwardSlash;
+            }
         }
 
         public SolutionSettings BuildSettings()

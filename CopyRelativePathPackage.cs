@@ -86,9 +86,9 @@ namespace CopyRelativePath
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local && LoadSettings())
+            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
             {
-                OptionPage.AttachSettings(_settings);
+                LoadSettings();
             }
             else
             {
@@ -136,7 +136,7 @@ namespace CopyRelativePath
             return pPersistence.LoadPackageUserOpts(this, ExtensionOptionsStreamKey);
         }
 
-        // Called by the shell if the _strSolutionUserOptionsKey section declared in LoadUserOptions() as 
+        // Called by the shell if the `key` section declared in LoadUserOptions() as 
         // being written by this package has been found in the suo file
         public int ReadUserOptions(IStream pOptionsStream, string key)
         {
@@ -154,15 +154,18 @@ namespace CopyRelativePath
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
             }
+
+            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
+                OptionPage.AttachSettings(_settings);
 
             return _settings == null ? VSConstants.E_FAIL : VSConstants.S_OK;
         }
 
-        // Called by the shell when the SUO file is saved. The provider calls the shell back to let it
-        // know which options keys it will use in the suo file.
+        // Called by the shell when the SUO file is saved when a solution is closed.
+        // The provider calls the shell back to let it know which options keys it will use in the suo file.
         public int SaveUserOptions(IVsSolutionPersistence pPersistence)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
@@ -183,6 +186,10 @@ namespace CopyRelativePath
             catch
             {
             }
+
+            _settings = null;
+            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
+                OptionPage.AttachSettings(null);
 
             return VSConstants.S_OK;
         }
