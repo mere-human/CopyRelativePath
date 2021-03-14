@@ -1,11 +1,12 @@
-# CopyRelativePath
-CopyRelativePath Visual Studio Extension.
+# Copy Relative Path Extension
+
+![document tab menu](Resources/file-path_icon-icons.com_71653_128.png)
 
 Download: [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mere-human.CopyRelativePath)
 
 ## Description
 
-This extension adds advanced path copying commands. Available commands:
+This Visual Studio extension adds advanced path copying commands. Available commands:
 
 1. **Copy Relative Path** - Get a relative path to the document. This might be useful when adding a C++ include statement. _Example:_ transform `D:\notepad-plus-plus\PowerEditor\src\resource.h` into `PowerEditor/src/resource.h`.
 
@@ -24,3 +25,7 @@ Or in the context menu for an item in the Solution Explorer:
 Settings can be customized in _Tools > Options > Copy Relative Path Extension_:
 
 ![options dialog](Resources/options-dialog.png)
+
+## Links
+
+* File path icon by [Picol](https://icon-icons.com/icon/file-path/71653), [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
