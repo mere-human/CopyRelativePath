@@ -6,7 +6,6 @@
         <Description xml:space="preserve">Adds advanced copy file path commands.</Description>
         <MoreInfo>https://github.com/mere-human/CopyRelativePath</MoreInfo>
         <License>LICENSE.txt</License>
-        <PreviewImage>Resources\menu-solution-explorer.png</PreviewImage>
         <Tags>tools,file,path</Tags>
         <Preview>true</Preview>
     </Metadata>
