@@ -20,7 +20,7 @@ namespace CopyRelativePath
 
         [Category(BehaviorCategoryName)]
         [DisplayName("Base Path")]
-        [Description("Specify a base for relative path. If empty, then the solution directory is used.")]
+        [Description("Specify a directory to be used as a base path. By default, the solution directory is used.")]
         public string OptionBasePath
         {
             get;
@@ -28,8 +28,8 @@ namespace CopyRelativePath
         }
 
         [Category(BehaviorCategoryName)]
-        [DisplayName("Prefix")]
-        [Description("Specify a prefix to append before the relative path. Example: https://github.com/vim/vim/blob/master/")]
+        [DisplayName("URL Prefix")]
+        [Description("Specify URL base path. Example: https://github.com/vim/vim/blob/master/")]
         public string OptionPrefix
         {
             get;

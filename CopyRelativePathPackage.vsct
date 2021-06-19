@@ -65,7 +65,7 @@
       <Button guid="guidCopyRelativePathPackageCmdSet" id="PrefxCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <Strings>
-          <ButtonText>Copy With &amp;Prefix</ButtonText>
+          <ButtonText>Copy &amp;URL</ButtonText>
         </Strings>
       </Button>
     </Buttons>
