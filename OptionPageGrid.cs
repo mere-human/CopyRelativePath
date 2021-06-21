@@ -29,7 +29,7 @@ namespace CopyRelativePath
 
         [Category(BehaviorCategoryName)]
         [DisplayName("URL Prefix")]
-        [Description("Specify URL base path. Example: https://github.com/vim/vim/blob/master/")]
+        [Description("Specify URL base path. Required for Copy URL command. Example: https://github.com/vim/vim/blob/master/")]
         public string OptionPrefix
         {
             get;

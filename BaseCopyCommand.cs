@@ -19,10 +19,9 @@ namespace CopyRelativePath
         /// </summary>
         protected CopyRelativePathPackage package;
 
-        protected void Execute(bool appendPrefix)
+        protected void ExecuteCopy(bool appendPrefix)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
             string basePath = package.OptionBasePath;
             if (string.IsNullOrEmpty(basePath))
                 basePath = Path.GetDirectoryName(package.DTE.Solution.FullName);

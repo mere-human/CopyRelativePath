@@ -71,7 +71,8 @@ namespace CopyRelativePath
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            Execute(appendPrefix: false);
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ExecuteCopy(appendPrefix: false);
         }
     }
 }

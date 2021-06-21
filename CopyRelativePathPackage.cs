@@ -43,6 +43,7 @@ namespace CopyRelativePath
         objectName: "Copy Relative Path Settings", categoryResourceID: 106, objectNameResourceID: 107,
         isToolsOptionPage: true, DescriptionResourceID = 108)]
     [ProvideBindingPath]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class CopyRelativePathPackage : AsyncPackage, IVsPersistSolutionOpts
     {
         /// <summary>

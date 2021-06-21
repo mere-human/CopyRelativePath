@@ -35,7 +35,9 @@ namespace CopyRelativePath
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new MenuCommand(this.Execute, menuCommandID);
+            var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
+            menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
+            menuItem.Visible = true;
             commandService.AddCommand(menuItem);
         }
 
@@ -71,7 +73,26 @@ namespace CopyRelativePath
         /// <param name="e">Event args.</param>
         private void Execute(object sender, EventArgs e)
         {
-            Execute(appendPrefix: true);
+            ThreadHelper.ThrowIfNotOnUIThread();
+            ExecuteCopy(appendPrefix: true);
+        }
+
+        /// <summary>
+        /// Called before menu button is shown so we can update text and active state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnBeforeQueryStatus(object sender, EventArgs e)
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            var cmd = sender as OleMenuCommand;
+            if (cmd != null)
+            {
+                if (cmd.CommandID.ID == CommandId)
+                {
+                    cmd.Enabled = package.OptionPrefix.Length != 0;
+                }
+            }
         }
     }
 }
