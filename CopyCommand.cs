@@ -4,6 +4,8 @@
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.IO;
+using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
@@ -72,7 +74,9 @@ namespace CopyRelativePath
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            ExecuteCopy(isUrl: false);
+            string filePath = GetRelPath();
+            if (!string.IsNullOrEmpty(filePath))
+                Clipboard.SetText(filePath);
         }
     }
 }

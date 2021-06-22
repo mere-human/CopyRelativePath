@@ -4,6 +4,7 @@
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
+using System.Windows.Forms;
 using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
@@ -72,8 +73,25 @@ namespace CopyRelativePath
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            ExecuteCopy(isUrl: false);
-            //package.OptionIncludeDirs;
+            string filePath = GetRelPath();
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                if (package.OptionIncludeDirs != null && package.OptionIncludeDirs.Length != 0)
+                {
+                    foreach (var incl in package.OptionIncludeDirs)
+                    {
+                        if (filePath.StartsWith(incl, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            filePath = filePath.Remove(0, incl.Length);
+                            filePath = filePath.TrimStart('/', '\\');
+                            break;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(filePath))
+                    Clipboard.SetText("#include \"" + filePath + "\"");
+            }
         }
     }
 }

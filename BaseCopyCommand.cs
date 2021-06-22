@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace CopyRelativePath
 {
@@ -21,7 +20,11 @@ namespace CopyRelativePath
         /// </summary>
         protected CopyRelativePathPackage package;
 
-        protected void ExecuteCopy(bool isUrl)
+        /// <summary>
+        /// Returns relative path to the selected item.
+        /// </summary>
+        /// <returns>path string or null</returns>
+        protected string GetRelPath()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -47,7 +50,7 @@ namespace CopyRelativePath
 
             // Do nothing if failed to obtain the correct file name.
             if (string.IsNullOrEmpty(fileName) || !File.Exists(fileName))
-                return;
+                return null;
 
             string basePath = package.OptionBasePath;
             if (string.IsNullOrEmpty(basePath) || !Path.IsPathRooted(basePath))
@@ -75,13 +78,11 @@ namespace CopyRelativePath
             }
             fileName = fileName.TrimStart(Path.DirectorySeparatorChar);
 
-            if (isUrl && !string.IsNullOrEmpty(package.OptionPrefix))
-                fileName = Path.Combine(package.OptionPrefix, fileName);
-
-            if (isUrl || package.OptionIsForwardSlash)
+            if (package.OptionIsForwardSlash)
+                
                 fileName = fileName.Replace(Path.DirectorySeparatorChar, '/');
 
-            Clipboard.SetText(fileName);
+            return fileName;
         }
 
         private string GetPathFromSelectedProjectItem()
