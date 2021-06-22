@@ -72,6 +72,11 @@ namespace CopyRelativePath
         {
             get => OptionPage.OptionIsForwardSlash;
         }
+        // TODO: save to solution settings
+        public string[] OptionIncludeDirs
+        {
+            get => OptionPage.OptionIncludeDirs;
+        }
         #endregion
 
         #region Package Members

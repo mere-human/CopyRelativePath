@@ -38,8 +38,13 @@ namespace CopyRelativePath
 
         [Category(BehaviorCategoryName)]
         [DisplayName("Use forward slash")]
-        [Description("If enabled, replace '\\' by '/' in a copied path.")]
+        [Description("If true, replace '\\' by '/' in a copied path.")]
         public bool OptionIsForwardSlash { get; set; } = true;
+
+        [Category(BehaviorCategoryName)]
+        [DisplayName("Include directories")]
+        [Description("List of paths to trim from the file path. Used for Copy Include command.")]
+        public string[] OptionIncludeDirs { get; set; }
 
         public enum StorageType
         {

@@ -62,6 +62,12 @@
           <ButtonText>Copy &amp;Relative Path</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidCopyRelativePathPackageCmdSet" id="IncludeCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
+        <Strings>
+          <ButtonText>Copy &amp;Include</ButtonText>
+        </Strings>
+      </Button>
       <Button guid="guidCopyRelativePathPackageCmdSet" id="PrefxCommandId" priority="0x0100" type="Button">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <CommandFlag>DefaultDisabled</CommandFlag>
@@ -81,6 +87,7 @@
     <GuidSymbol name="guidCopyRelativePathPackageCmdSet" value="{31ffadf9-d4ce-44e3-8931-03823256b328}">
       <IDSymbol name="MyMenuGroup" value="0x1020" />
       <IDSymbol name="RelCommandId" value="0x0100" />
+      <IDSymbol name="IncludeCommandId" value="0x0300" />
       <IDSymbol name="PrefxCommandId" value="0x0200" />
     </GuidSymbol>
   </Symbols>
