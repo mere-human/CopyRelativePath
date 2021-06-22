@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="CopyRelativePath.d0aff805-ad45-4950-af52-4376c0676fac" Version="1.1" Language="en-US" Publisher="mere-human" />
+        <Identity Id="CopyRelativePath.d0aff805-ad45-4950-af52-4376c0676fac" Version="1.2" Language="en-US" Publisher="mere-human" />
         <DisplayName>CopyRelativePath</DisplayName>
         <Description xml:space="preserve">Adds copy relative file path command and more.</Description>
         <MoreInfo>https://github.com/mere-human/CopyRelativePath</MoreInfo>
