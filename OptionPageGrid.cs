@@ -19,7 +19,7 @@ namespace CopyRelativePath
         private SolutionSettings _settings;
 
         [Category(BehaviorCategoryName)]
-        [DisplayName("Base Path")]
+        [DisplayName("Base directory")]
         [Description("Absolute path to a directory that is used as a base path. If empty, the solution directory is used.")]
         public string OptionBasePath
         {
@@ -28,8 +28,8 @@ namespace CopyRelativePath
         }
 
         [Category(BehaviorCategoryName)]
-        [DisplayName("URL Prefix")]
-        [Description("Specify URL base path. Required for Copy URL command. Example: https://github.com/vim/vim/blob/master/")]
+        [DisplayName("URL prefix")]
+        [Description("URL path that is prepended to the relative path. Required for Copy URL command. Example: https://github.com/vim/vim/blob/master/")]
         public string OptionPrefix
         {
             get;
@@ -37,7 +37,7 @@ namespace CopyRelativePath
         }
 
         [Category(BehaviorCategoryName)]
-        [DisplayName("Forward slash")]
+        [DisplayName("Use forward slash")]
         [Description("If enabled, replace '\\' by '/' in a copied path.")]
         public bool OptionIsForwardSlash { get; set; } = true;
 
