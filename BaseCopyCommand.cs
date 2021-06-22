@@ -21,7 +21,7 @@ namespace CopyRelativePath
         /// </summary>
         protected CopyRelativePathPackage package;
 
-        protected void ExecuteCopy(bool appendPrefix)
+        protected void ExecuteCopy(bool isUrl)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -75,12 +75,10 @@ namespace CopyRelativePath
             }
             fileName = fileName.TrimStart(Path.DirectorySeparatorChar);
 
-            // TODO: convert to forward slash if prefix starts with URI
-            // TODO: append /tree/master if missing for GitHub address
-            if (appendPrefix && !string.IsNullOrEmpty(package.OptionPrefix))
+            if (isUrl && !string.IsNullOrEmpty(package.OptionPrefix))
                 fileName = Path.Combine(package.OptionPrefix, fileName);
 
-            if (package.OptionIsForwardSlash)
+            if (isUrl || package.OptionIsForwardSlash)
                 fileName = fileName.Replace(Path.DirectorySeparatorChar, '/');
 
             Clipboard.SetText(fileName);

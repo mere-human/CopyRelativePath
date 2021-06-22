@@ -72,7 +72,7 @@ namespace CopyRelativePath
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            ExecuteCopy(appendPrefix: false);
+            ExecuteCopy(isUrl: false);
         }
     }
 }
