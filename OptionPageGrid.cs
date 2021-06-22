@@ -20,7 +20,7 @@ namespace CopyRelativePath
 
         [Category(BehaviorCategoryName)]
         [DisplayName("Base Path")]
-        [Description("Specify a directory to be used as a base path. By default, the solution directory is used.")]
+        [Description("Absolute path to a directory that is used as a base path. If empty, the solution directory is used.")]
         public string OptionBasePath
         {
             get;
