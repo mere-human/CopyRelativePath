@@ -54,28 +54,58 @@ namespace CopyRelativePath
 
         [Category(GlobalCategoryName)]
         [DisplayName("Storage type")]
-        [Description("Global options (same for all solutions) or local options (specific for each solution).\nLocal options are stored in .suo file.")]
-        public StorageType OptionStorageType { get; set; } = StorageType.Global;
+        [Description("Global options (same for all solutions) or local options (specific for each solution).\nLocal options are stored in a .suo file.")]
+        public StorageType OptionStorageType
+        {
+            get => _storageType;
+            set
+            {
+                if (_storageType != value && value == StorageType.Local)
+                    AssignFromLocal();
+                _storageType = value;
+            }
+        }
+        private StorageType _storageType = StorageType.Global;
 
-        public void AttachSettings(SolutionSettings settings)
+        public void OnSettingsLoaded(SolutionSettings settings)
         {
             _settings = settings;
+            if (OptionStorageType == StorageType.Local)
+                AssignFromLocal();
+        }
+
+        public void OnSetttingsSaved()
+        {
+            _settings = null;
+        }
+
+        private void AssignFromLocal()
+        {
             if (_settings != null)
             {
                 OptionBasePath = _settings.BasePath;
                 OptionPrefix = _settings.Prefix;
                 OptionIsForwardSlash = _settings.UseForwardSlash;
+                OptionIncludeDirs = _settings.IncludeDirs;
             }
         }
 
-        public SolutionSettings BuildSettings()
+        private void AssignToLocal(SolutionSettings settings)
         {
-            return new SolutionSettings()
+            if (settings != null)
             {
-                BasePath = OptionBasePath,
-                Prefix = OptionPrefix,
-                UseForwardSlash = OptionIsForwardSlash
-            };
+                settings.BasePath = OptionBasePath;
+                settings.Prefix = OptionPrefix;
+                settings.UseForwardSlash = OptionIsForwardSlash;
+                settings.IncludeDirs = OptionIncludeDirs;
+            }
+        }
+
+        public SolutionSettings LocalSettingsFromGlobal()
+        {
+            var inst = new SolutionSettings();
+            AssignToLocal(inst);
+            return inst;
         }
 
         #region DialogPage methods
@@ -111,31 +141,34 @@ namespace CopyRelativePath
         {
             base.LoadSettingFromStorage(prop); // init package (2), cancel (3), ok (7), close solution (2)
         }
+
+        // Options: Dialog is shown.
         protected override void OnActivate(CancelEventArgs e)
         {
-            base.OnActivate(e); // options: show
+            base.OnActivate(e);
         }
+
+        // Options: OK pressed (2).
         protected override void OnApply(PageApplyEventArgs e)
         {
-            base.OnApply(e); // options: ok (2)
-            if (_settings != null)
-            {
-                _settings.BasePath = OptionBasePath;
-                _settings.Prefix = OptionPrefix;
-                _settings.UseForwardSlash = OptionIsForwardSlash;
-            }
+            base.OnApply(e);
+            if (OptionStorageType == StorageType.Local)
+                AssignToLocal(_settings);
         }
+        // Options: Cancel (1) or OK (6) pressed.
         protected override void OnClosed(EventArgs e)
         {
-            base.OnClosed(e); // options: cancel (1), ok (6)
+            base.OnClosed(e);
         }
+        // Options: OK pressed (1)
         protected override void OnDeactivate(CancelEventArgs e)
         {
-            base.OnDeactivate(e); // options: ok (1)
+            base.OnDeactivate(e);
         }
+        // Options: OK pressed (4)
         protected override void SaveSetting(PropertyDescriptor property)
         {
-            base.SaveSetting(property); // options: ok (4)
+            base.SaveSetting(property);
         }
 
         #endregion

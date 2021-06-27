@@ -8,7 +8,9 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using IStream = Microsoft.VisualStudio.OLE.Interop.IStream;
@@ -72,7 +74,6 @@ namespace CopyRelativePath
         {
             get => OptionPage.OptionIsForwardSlash;
         }
-        // TODO: save to solution settings
         public string[] OptionIncludeDirs
         {
             get => OptionPage.OptionIncludeDirs;
@@ -94,14 +95,9 @@ namespace CopyRelativePath
             // Do any initialization that requires the UI thread after switching to the UI thread.
             await JoinableTaskFactory.SwitchToMainThreadAsync(cancellationToken);
 
-            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
-            {
-                LoadSettings();
-            }
-            else
-            {
-                _settings = OptionPage.BuildSettings();
-            }
+            // Try loading solution settings.
+            // Note that package might be initialized when there is no solution.
+            LoadSettings(); // TODO: should this by async?
 
             await CopyCommand.InitializeAsync(this);
             await PrefixCommand.InitializeAsync(this);
@@ -112,19 +108,18 @@ namespace CopyRelativePath
 
         private const string ExtensionOptionsStreamKey = "copy_rel_path";
 
-        private SolutionSettings _settings;
+        private SolutionSettings _localSettings;
 
         public bool LoadSettings()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
-            return solutionPersistence.LoadPackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
+            var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence));
+            return (solutionPersistence as IVsSolutionPersistence).LoadPackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
         }
 
         public bool PersistSettings()
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-
             var solutionPersistence = GetGlobalService(typeof(SVsSolutionPersistence)) as IVsSolutionPersistence;
             return solutionPersistence.SavePackageUserOpts(this, ExtensionOptionsStreamKey) == VSConstants.S_OK;
         }
@@ -144,7 +139,7 @@ namespace CopyRelativePath
         // being written by this package has been found in the suo file
         public int ReadUserOptions(IStream pOptionsStream, string key)
         {
-            _settings = null;
+            _localSettings = null;
 
             try
             {
@@ -154,18 +149,27 @@ namespace CopyRelativePath
                     var obj = serializer.Deserialize(stream);
                     if (obj != null)
                     {
-                        _settings = obj as SolutionSettings;
+                        _localSettings = obj as SolutionSettings;
                     }
                 }
             }
+            catch (SerializationException e)
+            {
+                Debug.Print("Exception: " + e.Message);
+            }
             catch
             {
+                Debug.Print("Exception: Unkonw while loading local settings");
             }
 
-            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
-                OptionPage.AttachSettings(_settings);
+            // If failed to read local settings, init a new instance from global settings.
+            // Then, if later on we switch from global to local, we would have something to save.
+            if (_localSettings == null)
+                _localSettings = OptionPage.LocalSettingsFromGlobal();
 
-            return _settings == null ? VSConstants.E_FAIL : VSConstants.S_OK;
+            OptionPage.OnSettingsLoaded(_localSettings);
+
+            return _localSettings == null ? VSConstants.E_FAIL : VSConstants.S_OK;
         }
 
         // Called by the shell when the SUO file is saved when a solution is closed.
@@ -179,21 +183,30 @@ namespace CopyRelativePath
         // Called by the shell to let the package write user options under the specified key.
         public int WriteUserOptions(IStream pOptionsStream, string key)
         {
-            try
+            // Save only if local settings are selected.
+            // This is the way to bypass overwriting of the previously saved settings.
+            if (_localSettings != null && OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
             {
-                using (var stream = new DataStreamFromComStream(pOptionsStream))
+                try
                 {
-                    var serializer = new BinaryFormatter();
-                    serializer.Serialize(stream, _settings);
+                    using (var stream = new DataStreamFromComStream(pOptionsStream))
+                    {
+                        var serializer = new BinaryFormatter();
+                        serializer.Serialize(stream, _localSettings);
+                    }
+                }
+                catch (SerializationException e)
+                {
+                    Debug.Print("Exception: " + e.Message);
+                }
+                catch
+                {
+                    Debug.Print("Exception: Unkonwn while saving settings");
                 }
             }
-            catch
-            {
-            }
 
-            _settings = null;
-            if (OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
-                OptionPage.AttachSettings(null);
+            _localSettings = null;
+            OptionPage.OnSetttingsSaved();
 
             return VSConstants.S_OK;
         }

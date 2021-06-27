@@ -13,6 +13,7 @@ namespace CopyRelativePath
     {
         public string BasePath { get; set; }
         public string Prefix { get; set; }
+        public string[] IncludeDirs { get; set; }
         public bool UseForwardSlash { get; set; } = true;
     }
 }

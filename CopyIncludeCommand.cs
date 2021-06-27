@@ -9,6 +9,7 @@ using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
 {
+    // TODO: rename - remove Copy
     /// <summary>
     /// Command handler
     /// </summary>
