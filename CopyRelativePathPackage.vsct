@@ -68,6 +68,11 @@
           <ButtonText>Copy &amp;URL</ButtonText>
         </Strings>
       </Button>
+      <Button guid="guidCopyRelativePathPackageCmdSet" id="URLAtLineCommandId" priority="0x0100" type="Button">
+        <Strings>
+          <ButtonText>Copy Current Line &amp;URL</ButtonText>
+        </Strings>
+      </Button>
     </Buttons>
 
   </Commands>
@@ -109,7 +114,7 @@
       <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0100">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup"/>
       </CommandPlacement>
-      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0101">
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLAtLineCommandId" priority="0x0101">
         <Parent guid="guidCopyRelativePathPackageCmdSet" id="CodeCtxGroup"/>
       </CommandPlacement>
 
@@ -132,6 +137,7 @@
       <IDSymbol name="RelCommandId" value="0x0100" />
       <IDSymbol name="IncludeCommandId" value="0x0300" />
       <IDSymbol name="URLCommandId" value="0x0200" />
+      <IDSymbol name="URLAtLineCommandId" value="0x0400" />
     </GuidSymbol>
 
   </Symbols>

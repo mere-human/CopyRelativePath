@@ -98,6 +98,7 @@ namespace CopyRelativePath
 
             await CopyPathCommand.InitializeAsync(this);
             await URLCommand.InitializeAsync(this);
+            await URLAtLineCommand.InitializeAsync(this);
             await CopyIncludeCommand.InitializeAsync(this);
 
             DTE = (DTE2)await GetServiceAsync(typeof(DTE));

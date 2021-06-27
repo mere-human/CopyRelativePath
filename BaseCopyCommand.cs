@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace CopyRelativePath
 {
@@ -77,6 +78,23 @@ namespace CopyRelativePath
                 fileName = fileName.Replace(Path.DirectorySeparatorChar, '/');
 
             return fileName;
+        }
+
+        protected string GetURLPath()
+        {
+            ThreadHelper.ThrowIfNotOnUIThread();
+            if (string.IsNullOrEmpty(package.OptionPrefix))
+            {
+                MessageBox.Show("URL prefix option is empty", "Copy URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return null;
+            }
+            else
+            {
+                string filePath = GetRelPath();
+                filePath = Path.Combine(package.OptionPrefix, filePath);
+                filePath = filePath.Replace(Path.DirectorySeparatorChar, '/');
+                return filePath;
+            }
         }
 
         private string GetPathFromSelectedProjectItem()

@@ -50,6 +50,7 @@
     <Compile Include="OptionPageGrid.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="URLAtLineCommand.cs" />
     <Compile Include="URLCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtensionPackage.cs" />

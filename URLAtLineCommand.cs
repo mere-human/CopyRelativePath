@@ -1,6 +1,7 @@
 ﻿// Copyright (c) mere-human. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using System;
 using System.ComponentModel.Design;
@@ -13,9 +14,9 @@ namespace CopyRelativePath
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class URLCommand : BaseCopyCommand
+    internal sealed class URLAtLineCommand : BaseCopyCommand
     {
-        public const int CommandId = 0x0200;
+        public const int CommandId = 0x0400;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -28,7 +29,7 @@ namespace CopyRelativePath
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private URLCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private URLAtLineCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
             base.package = package as ExtensionPackage ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
@@ -38,7 +39,7 @@ namespace CopyRelativePath
             commandService.AddCommand(menuItem);
         }
 
-        public static URLCommand Instance
+        public static URLAtLineCommand Instance
         {
             get;
             private set;
@@ -55,7 +56,7 @@ namespace CopyRelativePath
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new URLCommand(package, commandService);
+            Instance = new URLAtLineCommand(package, commandService);
         }
 
         /// <summary>
@@ -68,9 +69,21 @@ namespace CopyRelativePath
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
+            ThreadHelper.ThrowIfNotOnUIThread();
             string filePath = GetURLPath();
             if (!string.IsNullOrEmpty(filePath))
-                Clipboard.SetText(filePath);
+            {
+                if (package.DTE.ActiveDocument != null)
+                {
+                    var textSel = package.DTE.ActiveDocument.Object("TextSelection") as TextSelection;
+                    if (textSel != null)
+                    {
+                        filePath += "#L";   // TODO: make this customizable
+                        filePath += textSel.CurrentLine.ToString();
+                        Clipboard.SetText(filePath);
+                    }
+                }
+            }
         }
     }
 }
