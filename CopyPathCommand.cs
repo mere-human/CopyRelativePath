@@ -13,12 +13,12 @@ namespace CopyRelativePath
     /// <summary>
     /// Command handler
     /// </summary>
-    internal sealed class PrefixCommand : BaseCopyCommand
+    internal sealed class CopyPathCommand : BaseCopyCommand
     {
         /// <summary>
         /// Command ID.
         /// </summary>
-        public const int CommandId = 0x0200;
+        public const int CommandId = 0x0100;
 
         /// <summary>
         /// Command menu group (command set GUID).
@@ -26,27 +26,25 @@ namespace CopyRelativePath
         public static readonly Guid CommandSet = new Guid("31ffadf9-d4ce-44e3-8931-03823256b328");
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrefixCommand"/> class.
+        /// Initializes a new instance of the <see cref="CopyPathCommand"/> class.
         /// Adds our command handlers for menu (commands must exist in the command table file)
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private PrefixCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private CopyPathCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
-            base.package = package as CopyRelativePathPackage ?? throw new ArgumentNullException(nameof(package));
+            base.package = package as ExtensionPackage ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
-            var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
-            menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
-            menuItem.Visible = true;
+            var menuItem = new MenuCommand(this.Execute, menuCommandID);
             commandService.AddCommand(menuItem);
         }
 
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static PrefixCommand Instance
+        public static CopyPathCommand Instance
         {
             get;
             private set;
@@ -63,7 +61,7 @@ namespace CopyRelativePath
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
             OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
-            Instance = new PrefixCommand(package, commandService);
+            Instance = new CopyPathCommand(package, commandService);
         }
 
         /// <summary>
@@ -78,32 +76,7 @@ namespace CopyRelativePath
             ThreadHelper.ThrowIfNotOnUIThread();
             string filePath = GetRelPath();
             if (!string.IsNullOrEmpty(filePath))
-            {
-                if (!string.IsNullOrEmpty(package.OptionPrefix))
-                {
-                    filePath = Path.Combine(package.OptionPrefix, filePath);
-                    filePath = filePath.Replace(Path.DirectorySeparatorChar, '/');
-                    Clipboard.SetText(filePath);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Called before menu button is shown so we can update text and active state
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnBeforeQueryStatus(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var cmd = sender as OleMenuCommand;
-            if (cmd != null)
-            {
-                if (cmd.CommandID.ID == CommandId)
-                {
-                    cmd.Enabled = package.OptionPrefix.Length != 0;
-                }
-            }
+                Clipboard.SetText(filePath);
         }
     }
 }

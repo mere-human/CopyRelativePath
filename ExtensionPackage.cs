@@ -46,7 +46,7 @@ namespace CopyRelativePath
         isToolsOptionPage: true, DescriptionResourceID = 108)]
     [ProvideBindingPath]
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
-    public sealed class CopyRelativePathPackage : AsyncPackage, IVsPersistSolutionOpts
+    public sealed class ExtensionPackage : AsyncPackage, IVsPersistSolutionOpts
     {
         /// <summary>
         /// CopyRelativePathPackage GUID string.
@@ -99,8 +99,8 @@ namespace CopyRelativePath
             // Note that package might be initialized when there is no solution.
             LoadSettings(); // TODO: should this by async?
 
-            await CopyCommand.InitializeAsync(this);
-            await PrefixCommand.InitializeAsync(this);
+            await CopyPathCommand.InitializeAsync(this);
+            await URLCommand.InitializeAsync(this);
             await CopyIncludeCommand.InitializeAsync(this);
 
             DTE = (DTE2)await GetServiceAsync(typeof(DTE));

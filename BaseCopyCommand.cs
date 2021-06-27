@@ -18,7 +18,7 @@ namespace CopyRelativePath
         /// <summary>
         /// VS Package that provides this command, not null.
         /// </summary>
-        protected CopyRelativePathPackage package;
+        protected ExtensionPackage package;
 
         /// <summary>
         /// Returns relative path to the selected item.

@@ -33,7 +33,7 @@ namespace CopyRelativePath
         /// <param name="commandService">Command service to add command to, not null.</param>
         private CopyIncludeCommand(AsyncPackage package, OleMenuCommandService commandService)
         {
-            base.package = package as CopyRelativePathPackage ?? throw new ArgumentNullException(nameof(package));
+            base.package = package as ExtensionPackage ?? throw new ArgumentNullException(nameof(package));
             commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);

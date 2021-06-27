@@ -50,10 +50,10 @@
     <Compile Include="OptionPageGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="PrefixCommand.cs" />
+    <Compile Include="URLCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CopyRelativePathPackage.cs" />
-    <Compile Include="CopyCommand.cs" />
+    <Compile Include="ExtensionPackage.cs" />
+    <Compile Include="CopyPathCommand.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
