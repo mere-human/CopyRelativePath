@@ -10,14 +10,8 @@ using System.Linq;
 
 namespace CopyRelativePath
 {
-    /// <summary>
-    /// Command handler
-    /// </summary>
     internal class BaseCopyCommand
     {
-        /// <summary>
-        /// VS Package that provides this command, not null.
-        /// </summary>
         protected ExtensionPackage package;
 
         /// <summary>

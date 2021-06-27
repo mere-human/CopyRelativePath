@@ -15,9 +15,6 @@ namespace CopyRelativePath
     /// </summary>
     internal sealed class URLCommand : BaseCopyCommand
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
         public const int CommandId = 0x0200;
 
         /// <summary>
@@ -43,9 +40,6 @@ namespace CopyRelativePath
             commandService.AddCommand(menuItem);
         }
 
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
         public static URLCommand Instance
         {
             get;

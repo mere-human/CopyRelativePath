@@ -48,9 +48,6 @@ namespace CopyRelativePath
     [ProvideAutoLoad(VSConstants.UICONTEXT.NoSolution_string, PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class ExtensionPackage : AsyncPackage, IVsPersistSolutionOpts
     {
-        /// <summary>
-        /// CopyRelativePathPackage GUID string.
-        /// </summary>
         public const string PackageGuidString = "27eb3794-7e10-41c3-91f3-4ffa1c376954";
 
         public DTE2 DTE
@@ -60,23 +57,23 @@ namespace CopyRelativePath
         }
 
         #region Options
-        public OptionPageGrid OptionPage { get => (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid)); }
+        public OptionPageGrid DialogPage { get => (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid)); }
 
         public string OptionBasePath
         {
-            get => OptionPage.OptionBasePath;
+            get => DialogPage.OptionBasePath;
         }
         public string OptionPrefix
         {
-            get => OptionPage.OptionPrefix;
+            get => DialogPage.OptionPrefix;
         }
         public bool OptionIsForwardSlash
         {
-            get => OptionPage.OptionIsForwardSlash;
+            get => DialogPage.OptionIsForwardSlash;
         }
         public string[] OptionIncludeDirs
         {
-            get => OptionPage.OptionIncludeDirs;
+            get => DialogPage.OptionIncludeDirs;
         }
         #endregion
 
@@ -165,9 +162,9 @@ namespace CopyRelativePath
             // If failed to read local settings, init a new instance from global settings.
             // Then, if later on we switch from global to local, we would have something to save.
             if (_localSettings == null)
-                _localSettings = OptionPage.LocalSettingsFromGlobal();
+                _localSettings = DialogPage.LocalSettingsFromGlobal();
 
-            OptionPage.OnSettingsLoaded(_localSettings);
+            DialogPage.OnSettingsLoaded(_localSettings);
 
             return _localSettings == null ? VSConstants.E_FAIL : VSConstants.S_OK;
         }
@@ -185,7 +182,7 @@ namespace CopyRelativePath
         {
             // Save only if local settings are selected.
             // This is the way to bypass overwriting of the previously saved settings.
-            if (_localSettings != null && OptionPage.OptionStorageType == OptionPageGrid.StorageType.Local)
+            if (_localSettings != null && DialogPage.OptionStorageType == OptionPageGrid.StorageType.Local)
             {
                 try
                 {
@@ -206,7 +203,7 @@ namespace CopyRelativePath
             }
 
             _localSettings = null;
-            OptionPage.OnSetttingsSaved();
+            DialogPage.OnSetttingsSaved();
 
             return VSConstants.S_OK;
         }

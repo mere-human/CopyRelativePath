@@ -15,9 +15,6 @@ namespace CopyRelativePath
     /// </summary>
     internal sealed class CopyPathCommand : BaseCopyCommand
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
         public const int CommandId = 0x0100;
 
         /// <summary>
@@ -41,9 +38,6 @@ namespace CopyRelativePath
             commandService.AddCommand(menuItem);
         }
 
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
         public static CopyPathCommand Instance
         {
             get;

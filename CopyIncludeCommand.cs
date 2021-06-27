@@ -9,15 +9,11 @@ using Task = System.Threading.Tasks.Task;
 
 namespace CopyRelativePath
 {
-    // TODO: rename - remove Copy
     /// <summary>
     /// Command handler
     /// </summary>
     internal sealed class CopyIncludeCommand : BaseCopyCommand
     {
-        /// <summary>
-        /// Command ID.
-        /// </summary>
         public const int CommandId = 0x0300;
 
         /// <summary>
@@ -41,9 +37,6 @@ namespace CopyRelativePath
             commandService.AddCommand(menuItem);
         }
 
-        /// <summary>
-        /// Gets the instance of the command.
-        /// </summary>
         public static CopyIncludeCommand Instance
         {
             get;
