@@ -35,8 +35,6 @@ namespace CopyRelativePath
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new OleMenuCommand(this.Execute, menuCommandID);
-            menuItem.BeforeQueryStatus += new EventHandler(OnBeforeQueryStatus);
-            menuItem.Visible = true;
             commandService.AddCommand(menuItem);
         }
 
@@ -70,33 +68,16 @@ namespace CopyRelativePath
         private void Execute(object sender, EventArgs e)
         {
             ThreadHelper.ThrowIfNotOnUIThread();
-            string filePath = GetRelPath();
-            if (!string.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(package.OptionPrefix))
             {
-                if (!string.IsNullOrEmpty(package.OptionPrefix))
-                {
-                    filePath = Path.Combine(package.OptionPrefix, filePath);
-                    filePath = filePath.Replace(Path.DirectorySeparatorChar, '/');
-                    Clipboard.SetText(filePath);
-                }
+                MessageBox.Show("URL prefix option is empty", "Copy URL", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-
-        /// <summary>
-        /// Called before menu button is shown so we can update text and active state
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void OnBeforeQueryStatus(object sender, EventArgs e)
-        {
-            ThreadHelper.ThrowIfNotOnUIThread();
-            var cmd = sender as OleMenuCommand;
-            if (cmd != null)
+            else
             {
-                if (cmd.CommandID.ID == CommandId)
-                {
-                    cmd.Enabled = package.OptionPrefix.Length != 0;
-                }
+                string filePath = GetRelPath();
+                filePath = Path.Combine(package.OptionPrefix, filePath);
+                filePath = filePath.Replace(Path.DirectorySeparatorChar, '/');
+                Clipboard.SetText(filePath);
             }
         }
     }
