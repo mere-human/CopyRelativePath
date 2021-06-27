@@ -36,15 +36,11 @@
          group as the part of a menu contained between two lines. The parent of a group
          must be a menu. -->
     <Groups>
-      <Group guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <!--MDI document context menu-->
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB"/>
-      </Group>
-      <Group guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" priority="0x0600">
-        <!--Item node context menu (Solution Explorer)-->
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
-      </Group>
+      <Group guid="guidCopyRelativePathPackageCmdSet" id="TabMenuGroup" priority="0x0"/>
+      <Group guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup" priority="0x0"/>
+      <Group guid="guidCopyRelativePathPackageCmdSet" id="CodeCtxGroup" priority="0x0"/>
     </Groups>
+
     <!--Buttons section. -->
     <!--This section defines the elements the user can interact with, like a menu command or a button
         or combo box in a toolbar. -->
@@ -57,20 +53,17 @@
               <CommandFlag>DynamicVisibility</CommandFlag>
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidCopyRelativePathPackageCmdSet" id="RelCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <Strings>
           <ButtonText>Copy &amp;Relative Path</ButtonText>
         </Strings>
       </Button>
       <Button guid="guidCopyRelativePathPackageCmdSet" id="IncludeCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
         <Strings>
           <ButtonText>Copy &amp;Include</ButtonText>
+          <ToolTipText>For C/C++ #include</ToolTipText>
         </Strings>
       </Button>
-      <Button guid="guidCopyRelativePathPackageCmdSet" id="PrefxCommandId" priority="0x0100" type="Button">
-        <Parent guid="guidCopyRelativePathPackageCmdSet" id="MyMenuGroup" />
-        <CommandFlag>DefaultDisabled</CommandFlag>
+      <Button guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0100" type="Button">
         <Strings>
           <ButtonText>Copy &amp;URL</ButtonText>
         </Strings>
@@ -79,16 +72,67 @@
 
   </Commands>
 
+  <!--A command group is a collection of commands that always appear together on a menu or toolbar.
+      Any command group can be re-used by assigning it to different parent menus in the CommandPlacements section.-->
+  <CommandPlacements>
+    <CommandPlacements>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="TabMenuGroup" priority="0x0100">
+        <!--MDI document context menu-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_EZDOCWINTAB"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup" priority="0x0100">
+        <!--Item node context menu (Solution Explorer)-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="CodeCtxGroup" priority="0x0102">
+        <!--Edit code window context menu-->
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+      </CommandPlacement>
+
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="RelCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="TabMenuGroup"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="RelCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup"/>
+      </CommandPlacement>
+
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="IncludeCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="TabMenuGroup"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="IncludeCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup"/>
+      </CommandPlacement>
+
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="TabMenuGroup"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0100">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="ProjectMenuGroup"/>
+      </CommandPlacement>
+      <CommandPlacement guid="guidCopyRelativePathPackageCmdSet" id="URLCommandId" priority="0x0101">
+        <Parent guid="guidCopyRelativePathPackageCmdSet" id="CodeCtxGroup"/>
+      </CommandPlacement>
+
+    </CommandPlacements>
+  </CommandPlacements>
+
+  <!--<KeyBindings>
+    <KeyBinding guid="guidVisualHgCmdSet" id="cmdidCommit" editor="guidVSStd97" key1="I" mod1="Alt Shift"/>
+  </KeyBindings>-->
+
   <Symbols>
     <!-- This is the package guid. -->
     <GuidSymbol name="guidCopyRelativePathPackage" value="{27eb3794-7e10-41c3-91f3-4ffa1c376954}" />
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidCopyRelativePathPackageCmdSet" value="{31ffadf9-d4ce-44e3-8931-03823256b328}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="TabMenuGroup" value="0x1020" />
+      <IDSymbol name="ProjectMenuGroup" value="0x1030" />
+      <IDSymbol name="CodeCtxGroup" value="0x1040" />
       <IDSymbol name="RelCommandId" value="0x0100" />
       <IDSymbol name="IncludeCommandId" value="0x0300" />
-      <IDSymbol name="PrefxCommandId" value="0x0200" />
+      <IDSymbol name="URLCommandId" value="0x0200" />
     </GuidSymbol>
+
   </Symbols>
 </CommandTable>
