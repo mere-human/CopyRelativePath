@@ -57,7 +57,7 @@ namespace CopyRelativePath
         }
 
         #region Options
-        public OptionPageGrid DialogPage { get => (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid)); }
+        private OptionPageGrid DialogPage { get => (OptionPageGrid)GetDialogPage(typeof(OptionPageGrid)); }
 
         public string OptionBasePath
         {
@@ -66,6 +66,10 @@ namespace CopyRelativePath
         public string OptionPrefix
         {
             get => DialogPage.OptionPrefix;
+        }
+        public string OptionLineSuffix
+        {
+            get => DialogPage.OptionLineSuffix;
         }
         public bool OptionIsForwardSlash
         {

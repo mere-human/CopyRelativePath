@@ -18,23 +18,22 @@ namespace CopyRelativePath
         [NonSerialized]
         private SolutionSettings _settings;
 
-        [Category(BehaviorCategoryName)]
-        [DisplayName("Base directory")]
-        [Description("Absolute path to a directory that is used as a base path. If empty, the solution directory is used.")]
-        public string OptionBasePath
-        {
-            get;
-            set;
-        }
+        #region Option Properties
 
         [Category(BehaviorCategoryName)]
-        [DisplayName("URL prefix")]
-        [Description("URL path that is prepended to the relative path. Required for Copy URL command. Example: https://github.com/vim/vim/blob/master/")]
-        public string OptionPrefix
-        {
-            get;
-            set;
-        }
+        [DisplayName("Base directory")]
+        [Description("Absolute path to a directory that is used to resolve a relative path.\nIf empty, the solution directory is used.")]
+        public string OptionBasePath { get; set; }
+
+        [Category("URL")]
+        [DisplayName("Base path")]
+        [Description("URL path that is prepended to the relative path. Required for Copy URL command.\nExample: https://github.com/vim/vim/blob/master/")]
+        public string OptionPrefix { get; set; }
+
+        [Category("URL")]
+        [DisplayName("Line link suffix")]
+        [Description("URL fragment that is used to refer to a specific line.\nExample result for #L: https://github.com/vim/vim/blob/master/Makefile#L100")]
+        public string OptionLineSuffix { get; set; } = "#L";
 
         [Category(BehaviorCategoryName)]
         [DisplayName("Use forward slash")]
@@ -43,7 +42,7 @@ namespace CopyRelativePath
 
         [Category(BehaviorCategoryName)]
         [DisplayName("Include directories")]
-        [Description("List of paths to trim from the file path. Used for Copy Include command.")]
+        [Description("List of paths to remove from the copied file path. Used for Copy Include command to paste to C/C++ #include directive.")]
         public string[] OptionIncludeDirs { get; set; }
 
         public enum StorageType
@@ -67,6 +66,8 @@ namespace CopyRelativePath
         }
         private StorageType _storageType = StorageType.Global;
 
+        #endregion
+
         public void OnSettingsLoaded(SolutionSettings settings)
         {
             _settings = settings;
@@ -87,6 +88,7 @@ namespace CopyRelativePath
                 OptionPrefix = _settings.Prefix;
                 OptionIsForwardSlash = _settings.UseForwardSlash;
                 OptionIncludeDirs = _settings.IncludeDirs;
+                OptionLineSuffix = _settings.LineSuffix;
             }
         }
 
@@ -98,6 +100,7 @@ namespace CopyRelativePath
                 settings.Prefix = OptionPrefix;
                 settings.UseForwardSlash = OptionIsForwardSlash;
                 settings.IncludeDirs = OptionIncludeDirs;
+                settings.LineSuffix = OptionLineSuffix;
             }
         }
 

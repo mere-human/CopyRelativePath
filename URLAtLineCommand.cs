@@ -78,7 +78,7 @@ namespace CopyRelativePath
                     var textSel = package.DTE.ActiveDocument.Object("TextSelection") as TextSelection;
                     if (textSel != null)
                     {
-                        filePath += "#L";   // TODO: make this customizable
+                        filePath += package.OptionLineSuffix.Length == 0 ? "#L" : package.OptionLineSuffix;
                         filePath += textSel.CurrentLine.ToString();
                         Clipboard.SetText(filePath);
                     }
