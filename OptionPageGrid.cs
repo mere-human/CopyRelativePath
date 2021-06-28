@@ -5,9 +5,21 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
 using System.ComponentModel;
+using System.Drawing.Design;
+using System.Windows.Forms.Design;
 
 namespace CopyRelativePath
 {
+    // Note: A better alternative could be CommonOpenFileDialog
+    internal class FolderEditor : FolderNameEditor
+    {
+        protected override void InitializeDialog(FolderBrowser folderBrowser)
+        {
+            base.InitializeDialog(folderBrowser);
+            folderBrowser.Description = "Base Directory for Relative Path";
+        }
+    }
+
     public class OptionPageGrid : DialogPage
     {
         public const string ExtensionName = "Copy Relative Path Extension";
@@ -23,6 +35,7 @@ namespace CopyRelativePath
         [Category(BehaviorCategoryName)]
         [DisplayName("Base directory")]
         [Description("Absolute path to a directory that is used to resolve a relative path.\nIf empty, the solution directory is used.")]
+        [Editor(typeof(FolderEditor), typeof(UITypeEditor))]
         public string OptionBasePath { get; set; }
 
         [Category("URL")]
