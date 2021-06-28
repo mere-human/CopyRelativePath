@@ -22,7 +22,7 @@ namespace CopyRelativePath
 
     public class OptionPageGrid : DialogPage
     {
-        public const string ExtensionName = "Copy Relative Path Extension";
+        public const string ExtensionName = "Copy Path Extension";
         public const string BehaviorCategoryName = "Behavior";
         public const string GlobalCategoryName = "Global";
         public const string PageName = "General";

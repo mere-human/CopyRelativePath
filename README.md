@@ -26,7 +26,7 @@ Or in the context menu for an item in the Solution Explorer:
 
 ![solution explorer menu](Resources/menu-solution-explorer.png)
 
-Settings can be customized in _Tools > Options > Copy Relative Path Extension_:
+Settings can be customized in _Tools > Options > Copy Path Extension_:
 
 ![options dialog](Resources/options-dialog.png)
 

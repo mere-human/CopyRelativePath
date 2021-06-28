@@ -61,7 +61,7 @@ namespace CopyRelativePath.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy Relative Path Extension.
+        ///   Looks up a localized string similar to Copy Path Extension.
         /// </summary>
         internal static string _106 {
             get {
