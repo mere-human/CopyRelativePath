@@ -8,11 +8,11 @@ Download: [Visual Studio Marketplace](https://marketplace.visualstudio.com/items
 
 This Visual Studio extension adds advanced path copying commands. Available commands:
 
-1. **Copy Relative Path** - Get a relative path to the document. _Example:_ transform `D:\notepad-plus-plus\PowerEditor\src\resource.h` into `PowerEditor/src/resource.h`.
+1. **Copy Relative Path** - Get a relative path to a selected document. _Example:_ transform `D:\notepad-plus-plus\PowerEditor\src\resource.h` → `PowerEditor/src/resource.h`.
 
 2. **Copy URL** - Append a relative path to a base URL specified in preferences. This might be used to get a GitHub link to the selected document in Visual Studio.
 _Example:_ transform `D:\notepad-plus-plus\PowerEditor\src\resource.h`
-into https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/PowerEditor/src/resource.h.
+→ https://github.com/notepad-plus-plus/notepad-plus-plus/blob/master/PowerEditor/src/resource.h.
 
 3. **Copy Current Line URL** - Same as **Copy URL** but link to a specific line. _Example:_ https://github.com/vim/vim/blob/master/Makefile#L100
 
