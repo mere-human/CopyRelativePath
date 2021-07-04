@@ -28,6 +28,7 @@ Extension commands are available in:
 ![solution explorer menu](Resources/menu-solution-explorer.png)
 
 3. Context menu in the editor
+
 ![editor context menu](Resources/ctx-menu-editor.png)
 
 Settings can be customized in _Tools > Options > Copy Path Extension_:
