@@ -18,13 +18,17 @@ _Example:_ transform `D:\notepad-plus-plus\PowerEditor\src\resource.h`
 
 4. **Copy Include** - Get a relative path while removing directories specified in Include Directories option. Useful for C/C++ projects (`#include` directive).
 
-The new commands are available in the context menu for a document tab:
+Extension commands are available in:
+1. Context menu for a document tab
 
 ![document tab menu](Resources/menu-doc-tab.png)
 
-Or in the context menu for an item in the Solution Explorer:
+2. Context menu for an item in the Solution Explorer:
 
 ![solution explorer menu](Resources/menu-solution-explorer.png)
+
+3. Context menu in the editor
+![editor context menu](Resources/ctx-menu-editor.png)
 
 Settings can be customized in _Tools > Options > Copy Path Extension_:
 
