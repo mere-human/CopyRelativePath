@@ -10,16 +10,6 @@ using System.Windows.Forms.Design;
 
 namespace CopyRelativePath
 {
-    // Note: A better alternative could be CommonOpenFileDialog
-    internal class FolderEditor : FolderNameEditor
-    {
-        protected override void InitializeDialog(FolderBrowser folderBrowser)
-        {
-            base.InitializeDialog(folderBrowser);
-            folderBrowser.Description = "Base Directory for Relative Path";
-        }
-    }
-
     public class OptionPageGrid : DialogPage
     {
         public const string ExtensionName = "Copy Path Extension";

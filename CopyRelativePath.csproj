@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BaseCopyCommand.cs" />
     <Compile Include="CopyIncludeCommand.cs" />
+    <Compile Include="FolderEditor.cs" />
     <Compile Include="OptionPageGrid.cs">
       <SubType>Component</SubType>
     </Compile>
